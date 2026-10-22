@@ -11,11 +11,24 @@ mkdir -p "$DATA/backup"
 [ -f "$DATA/config.conf" ] || printf 'INTERVAL=43200\n' > "$DATA/config.conf"
 [ -f "$DATA/disabled.list" ] || : > "$DATA/disabled.list"
 
-if [ ! -d /data/adb/modules/meta-overlayfs ]; then
+metamodule_ok=0
+if [ -e /data/adb/metamodule ]; then metamodule_ok=1; fi
+if [ "$metamodule_ok" -eq 0 ]; then
+  # 标准标记是 module.prop 里的 metamodule=1，目录名各实现不同（meta-overlay 等）
+  for f in /data/adb/modules/*/module.prop; do
+    [ -f "$f" ] || continue
+    if grep -q '^metamodule=' "$f" 2>/dev/null; then
+      metamodule_ok=1
+      break
+    fi
+  done
+fi
+
+if [ "$metamodule_ok" -eq 0 ]; then
   ui_print " "
-  ui_print "!! 未检测到 meta-overlayfs metamodule"
-  ui_print "!! 本模块需要它才能把 system/etc/hosts 挂载生效"
-  ui_print "!! 请在 KernelSU 管理器中安装 meta-overlayfs 后重启"
+  ui_print "!! 未检测到 metamodule（如 meta-overlayfs）"
+  ui_print "!! KernelSU / SterSU 需要它才能把 system/etc/hosts 挂载生效"
+  ui_print "!! 请安装 metamodule 后重启"
   ui_print " "
 fi
 
