@@ -63,7 +63,9 @@ for url in $("$BUSYBOX" grep -o '"url"[^"]*"[^"]*"' "$SOURCES" | "$BUSYBOX" sed 
   rm -f "$DL"
 done
 
-"$BUSYBOX" awk '!seen[$0]++' "$MERGED" > "$MERGED.uniq"
+# 按域名去重：同一域名保留最先出现的源给的 IP（越靠前的源优先级越高），
+# 否则一个域名会写入多个不同 IP，实际命中哪个不确定
+"$BUSYBOX" awk '!seen[$2]++' "$MERGED" > "$MERGED.uniq"
 mv -f "$MERGED.uniq" "$MERGED"
 count=$("$BUSYBOX" wc -l < "$MERGED")
 
