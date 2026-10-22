@@ -18,7 +18,7 @@
 
 1. 在 KernelSU 管理器中安装 **meta-overlayfs** metamodule。
    本模块需要把 `system/etc/hosts` 挂载到系统，KernelSU 通过 metamodule 完成挂载，缺少它 hosts 不会生效。
-2. 在 KernelSU 管理器「从存储安装」中选择 `github-hosts-v1.0.0.zip`。
+2. 在 KernelSU 管理器「从存储安装」中选择 `github-hosts-v1.0.1.zip`。
 3. 重启设备。
 
 > KernelSU 模块不能在 Recovery 中安装。
