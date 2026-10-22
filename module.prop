@@ -1,0 +1,6 @@
+id=github_hosts
+name=GitHub Hosts 加速
+version=v1.0.0
+versionCode=1
+author=AiCode
+description=合并多个源自动更新 GitHub 加速 hosts，可自定义源，WebUI 图形化管理
